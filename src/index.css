@@ -1,0 +1,111 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------------------------------------------------------------------------
+   Design tokens. Channels stored as "R G B" so Tailwind alpha syntax works.
+--------------------------------------------------------------------------- */
+@layer base {
+  :root {
+    --c-bg: 244 245 250;
+    --c-surface: 255 255 255;
+    --c-surface-2: 248 249 252;
+    --c-border: 226 228 235;
+    --c-text: 24 27 38;
+    --c-text-muted: 90 96 112;
+    --c-text-subtle: 140 146 162;
+  }
+
+  .dark {
+    --c-bg: 15 17 24;
+    --c-surface: 24 27 37;
+    --c-surface-2: 31 35 47;
+    --c-border: 44 49 64;
+    --c-text: 233 235 242;
+    --c-text-muted: 165 171 187;
+    --c-text-subtle: 120 126 142;
+  }
+
+  * {
+    border-color: rgb(var(--c-border));
+  }
+
+  html,
+  body {
+    height: 100%;
+  }
+
+  body {
+    @apply bg-bg text-content antialiased;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  }
+
+  /* Keyboard focus only — avoids ugly outlines on mouse click. */
+  :focus-visible {
+    @apply outline-none ring-2 ring-brand-500 ring-offset-2 ring-offset-bg;
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded-xl border border-border bg-surface shadow-soft;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-3.5 py-2 text-sm font-medium
+      transition-colors disabled:cursor-not-allowed disabled:opacity-50 select-none;
+  }
+  .btn-primary {
+    @apply btn bg-brand-600 text-white hover:bg-brand-700 active:bg-brand-800;
+  }
+  .btn-ghost {
+    @apply btn text-content-muted hover:bg-surface-2 hover:text-content;
+  }
+  .btn-danger {
+    @apply btn bg-red-600 text-white hover:bg-red-700;
+  }
+  .btn-subtle {
+    @apply btn border border-border bg-surface text-content hover:bg-surface-2;
+  }
+
+  .input {
+    @apply w-full rounded-lg border border-border bg-surface px-3 py-2 text-sm text-content
+      placeholder:text-content-subtle transition-shadow focus:border-brand-500
+      focus:outline-none focus:ring-2 focus:ring-brand-500/40;
+  }
+  .label {
+    @apply mb-1.5 block text-sm font-medium text-content-muted;
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium;
+  }
+}
+
+/* Custom scrollbar — unobtrusive, theme-aware. */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgb(var(--c-border));
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--c-text-subtle));
+  background-clip: content-box;
+}
+
+/* Respect users who prefer reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
